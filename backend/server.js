@@ -2,7 +2,15 @@ const express = require("express");
 const app = express();
 const puerto = 8000;
 
-app.get("/", (req, res) => {
+require("./server/config/mongoose.config");
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+
+const allEstuiantesRoutes = require("./server/routes/estudiante.routes");
+allEstuiantesRoutes(app);
+
+/*app.get("/", (req, res) => {
     console.log("Ejecutando endpoint")
     //res.json({"mensaje": "Hola mundo el OSCAR es demasiado FALSOOO!"})
     res.send("Hola Oscar Falso _ Probando el Doraemon!")
@@ -20,6 +28,6 @@ app.get("/estudiantes/:id", (req, res) => {
 app.delete("/estudiantes/:id", (req, res) => {
     const {id} = req.params
     res.json({mensaje: `Endpoint para eliminar estudiante con id ${id}`})
-})
+})*/
 
 app.listen(puerto, () => console.log("El servidor está escuchando en el puerto: ", puerto))
