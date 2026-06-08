@@ -1,0 +1,39 @@
+{
+  "estudiantes": [
+    {
+      "nombre": "Jhoel 170",
+      "edad": "21",
+      "url": "https://www.disneyplus.com/es-419/home",
+      "id": "1"
+    },
+    {
+      "id": "3",
+      "nombre": "Carlos",
+      "edad": 23,
+      "url": ""
+    },
+    {
+      "id": "4",
+      "nombre": "Ana",
+      "edad": 20,
+      "url": ""
+    },
+    {
+      "id": "5",
+      "nombre": "Luis",
+      "edad": 24,
+      "url": ""
+    },
+    {
+      "id": "zzR9YZ7WY8I",
+      "nombre": "Carlos",
+      "edad": 25
+    },
+    {
+      "nombre": "Anaela Falsa UwU",
+      "edad": 170,
+      "url": "https://www.tiktok.com",
+      "id": "YOQaGet6zWU"
+    }
+  ]
+}
