@@ -7,5 +7,8 @@ const allEstudianteRoutes = require("./routes/estudiante.routes");
 _ para cuando no ocupamos alguno
 Debe existir un cierre en el ciclo solicitud respuesta
 */
+app.use(express.json())
+
 allEstudianteRoutes(app);
+
 app.listen (puerto, ()=>console.log("El servidor esta escuchando en el puerto:", puerto))
