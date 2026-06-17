@@ -3,10 +3,13 @@ const express = require("express")
 const app = express()
 const puerto = 8000
 const allEstudianteRoutes = require("./routes/estudiante.routes");
+const cors = require("cors");
 /* res = es un objeto que contiene los metodos para responder a un la solicitud del cliente
 _ para cuando no ocupamos alguno
 Debe existir un cierre en el ciclo solicitud respuesta
 */
+app.use(cors());
+
 app.use(express.json())
 
 allEstudianteRoutes(app);

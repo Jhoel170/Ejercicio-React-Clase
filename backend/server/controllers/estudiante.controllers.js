@@ -2,12 +2,14 @@ const { response } = require("express")
 const Estudiante = require("../models/estudiante.model")
 
 module.exports.getAllEstudiantes = (_, response) => {
+    console.log("Ejecucion dle metodo")
     Estudiante.find({})
     .then(estudiantes => response.json(estudiantes))
     .catch(err => response.json(err))
 }
 
 module.exports.getEstudiante = (req, response) => {
+
     Estudiante.findOne({ _id: req.params.id })
         .then(est => {
             if (!est) {
@@ -52,7 +54,7 @@ module.exports.deleteEstudiante = (req, response) => {
     Estudiante.deleteOne({ _id: id })
         .then(result => {
             if (result.deletedCount === 0) {
-                return response.status(404).json({ message: "Estudiante no encontrado" });
+                return response.status(404).json({ m    });
             }
             response.json({ message: "Estudiante eliminado correctamente" });
         })

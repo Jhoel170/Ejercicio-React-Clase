@@ -1,6 +1,6 @@
-// Gestionar el estado y las conexiones a la API que afectan a ese estado
 import { useEffect, useState } from "react";
 import { api } from "../utils/api";
+import { getId } from "../utils/normalizador"; // ✅ IMPORTA
 
 export const useEstudiante = () => {
     const [estudiantes, setEstudiantes] = useState([]);
@@ -16,45 +16,59 @@ export const useEstudiante = () => {
     }, [])
 
     const agregarEstudiante = (nuevoEstudiante) => {
-
-        api.post("/estudiantes", nuevoEstudiante)
+        return api.post("/estudiantes", nuevoEstudiante)
             .then((res) => {
                 setEstudiantes(prev => [...prev, res.data]);
+                return res.data;
             })
             .catch((err) => {
-                console.log("Error al agregar un estudiante");
+                console.log("Error al agregar un estudiante", err);
+                throw err;
             })
-
-
-        /*setEstudiantes(prev => ([...prev, estudianteFinal]))
-        api.post("/estudiantes", estudianteFinal)
-        .then((res) => {
-            setEstudiantes(res.data)
-        })
-        .catch((err) => {
-            console.log(err);
-        })*/
     }
 
     const editarEstudiante = (editadoEstudiante) => {
-
-        api.put(`/estudiantes/${editadoEstudiante.id}`, editadoEstudiante)
-            .then(res => setEstudiantes(prev =>
-                prev.map(e => e.id === editadoEstudiante.id ? res.data : e)
-            ))
-            .catch((err) => console.log(err))
+        // ✅ USA getId() universal
+        const id = getId(editadoEstudiante);
+        console.log("✏️ Editando ID:", id);
+        
+        if (!id) {
+            console.error("❌ No se pudo obtener el ID del estudiante:", editadoEstudiante);
+            return Promise.reject("ID no encontrado");
+        }
+        
+        return api.put(`/estudiantes/${id}`, editadoEstudiante)
+            .then(() => {
+                console.log("✅ Editado, recargando lista...");
+                return api.get("/estudiantes");
+            })
+            .then((res) => {
+                setEstudiantes(res.data);
+                return res.data;
+            })
+            .catch((err) => {
+                console.log("❌ Error al editar:", err);
+                throw err;
+            });
     }
 
     const eliminarEstudiante = (id) => {
-
-        api.delete(`/estudiantes/${id}`)
-            .then(() => setEstudiantes(prev => prev.filter(e => e.id != id)))
-            //.then(() => prev => estudiantes.filter(e => e.id != id))
-            //.then(() => setEstudiantes(estudiantes.filter(e => e.id != id))) // Lo mismo de la linea de arriba
-            .catch((err) => {
-                console.log(err);
+        console.log("🗑️ Eliminando:", id);
+        
+        return api.delete(`/estudiantes/${id}`)
+            .then(() => {
+                console.log("✅ Eliminado, recargando lista...");
+                return api.get("/estudiantes");
             })
+            .then((res) => {
+                setEstudiantes(res.data);
+                return res.data;
+            })
+            .catch((err) => {
+                console.log("❌ Error:", err);
+                throw err;
+            });
     }
 
-    return { estudiantes, agregarEstudiante, eliminarEstudiante, editarEstudiante }
-}
+    return { estudiantes, agregarEstudiante, eliminarEstudiante, editarEstudiante };
+};

@@ -2,9 +2,14 @@ const express = require("express");
 const app = express();
 const puerto = 8000;
 
+const cors = require("cors");
+
 require("./server/config/mongoose.config");
 
+app.use(cors());
 app.use(express.json());
+
+
 app.use(express.urlencoded({ extended: true}));
 
 const allEstuiantesRoutes = require("./server/routes/estudiante.routes");

@@ -1,18 +1,28 @@
 import Estudiante from "../components/Estudiante";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getId } from "../utils/normalizador"; // ✅ IMPORTA
 
-//import { listaEstudiantes } from "../utils/data";
-import EstudianteForm from "../components/EstudianteForm";
 const EstudiantesPage = (props) => {
     const { estudiantes, onEliminar } = props;
     const navegar = useNavigate();
+
+    if (!estudiantes || estudiantes.length === 0) {
+        return (
+            <div>
+                <button onClick={() => navegar("/estudiantes/nuevo")}>+</button>
+                <p>No hay estudiantes</p>
+            </div>
+        );
+    }
+
     return (
         <div>
             <button onClick={() => navegar("/estudiantes/nuevo")}>+</button>
-            {
-                Array.isArray(estudiantes) &&
-                estudiantes.map((estudiante) => (
-                    <div key={estudiante.id}>
+            {estudiantes.map((estudiante) => {
+                // ✅ USA getId() universal
+                const id = getId(estudiante);
+                return (
+                    <div key={id}>
                         <Estudiante
                             nombre={estudiante.nombre}
                             edad={estudiante.edad}
@@ -20,20 +30,19 @@ const EstudiantesPage = (props) => {
                         />
                         <button
                             onClick={() =>
-                                navegar(`/estudiantes/${estudiante.id}/detalle`)
+                                navegar(`/estudiantes/${id}/detalle`)
                             }
                         >
                             Detalle
                         </button>
-                        <button onClick={() => onEliminar(estudiante.id)}>
+                        <button onClick={() => onEliminar(id)}>
                             Eliminar
                         </button>
                     </div>
-                ))
-            }
-
-
+                );
+            })}
         </div>
     );
-}
+};
+
 export default EstudiantesPage;
