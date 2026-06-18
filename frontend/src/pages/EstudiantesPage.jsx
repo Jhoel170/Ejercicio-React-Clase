@@ -1,6 +1,6 @@
 import Estudiante from "../components/Estudiante";
 import { useNavigate } from "react-router-dom";
-import { getId } from "../utils/normalizador"; // ✅ IMPORTA
+import { getId } from "../utils/normalizador";
 
 const EstudiantesPage = (props) => {
     const { estudiantes, onEliminar } = props;
@@ -27,6 +27,8 @@ const EstudiantesPage = (props) => {
                             nombre={estudiante.nombre}
                             edad={estudiante.edad}
                             url={estudiante.url}
+                            email={estudiante.email}
+                            password={estudiante.password}
                         />
                         <button
                             onClick={() =>

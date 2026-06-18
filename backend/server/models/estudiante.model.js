@@ -21,8 +21,17 @@ const EstudianteSchema = new mongoose.Schema({
             },
             message: "URL no válida"
         }
-    }
+    },
+    email:{
+        type: String,
+        required: [true, "Pon el Email"]
+    },
+    password: {
+        type: String,
+        required: [ true, "Password is required"]
+    },
 }, {
+    timestamps: true, // Guarda en cada registro un actualizado 
     versionKey: false   // Elimina el campo __v
 });
 

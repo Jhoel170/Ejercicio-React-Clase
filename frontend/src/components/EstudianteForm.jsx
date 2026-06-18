@@ -11,6 +11,7 @@ const EstudianteForm = (props) => {
         nombre: "",
         edad: 170,
         url: "",
+        email: "",
     });
     const navegar = useNavigate();
 
@@ -111,6 +112,28 @@ const EstudianteForm = (props) => {
                     value={nuevoEstudiante.url} 
                     onChange={(e) => setNuevoEstudiante(prev => ({...prev, url: e.target.value}))} 
                     placeholder="Ingresa url" 
+                />
+            </div>
+            <div>
+                <label htmlFor="est_email">Email: </label>
+                <input 
+                    type="text" 
+                    name="est_email" 
+                    id="est_email" 
+                    value={nuevoEstudiante.email} 
+                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, email: e.target.value}))} 
+                    placeholder="Ingresa email" 
+                />
+            </div>
+            <div>
+                <label htmlFor="est_passw">Password: </label>
+                <input 
+                    type="password" 
+                    name="est_passw" 
+                    id="est_passw" 
+                    value={nuevoEstudiante.password} 
+                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, password: e.target.value}))} 
+                    placeholder="Ingresa password" 
                 />
             </div>
             <div>

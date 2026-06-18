@@ -6,4 +6,5 @@ module.exports = function(app) {
     app.post("/estudiantes", EstudianteController.createEstudiante);
     app.put("/estudiantes/:id", EstudianteController.updateEstudiante);
     app.delete("/estudiantes/:id", EstudianteController.deleteEstudiante);
+    app.post("/estudiantes/login", EstudianteController.loginEstudiante);
 }

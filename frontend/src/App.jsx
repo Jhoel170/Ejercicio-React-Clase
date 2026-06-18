@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useEstudiante } from "./hooks/useEstudiante";  //1
 import DetalleEstudiante from "./pages/DetalleEstudiante";
+import LoginEstudiante from "./pages/LoginEstudiante";
 
 const App = () => {
 
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/estudiantes/nuevo" element= {<EstudianteForm onAgregar = {agregarEstudiante} />}></Route>
         <Route path= "/estudiantes/:id/detalle" element= {<DetalleEstudiante/>}></Route>
         <Route path="/estudiantes/:id/editar" element= {<EstudianteForm onEditar = {editarEstudiante} />}></Route>
+        <Route path="/estudiantes/login" element= {<LoginEstudiante/>}></Route>
         <Route path="/" element= {<HomePage/>}></Route>
       </Routes>
     </BrowserRouter>
