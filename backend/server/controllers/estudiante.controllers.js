@@ -5,8 +5,8 @@ const bcrypt = require("bcryptjs")
 module.exports.getAllEstudiantes = (_, response) => {
     console.log("Ejecucion dle metodo")
     Estudiante.find({})
-    .then(estudiantes => response.json(estudiantes))
-    .catch(err => response.json(err))
+        .then(estudiantes => response.json(estudiantes))
+        .catch(err => response.json(err))
 }
 
 module.exports.getEstudiante = (req, response) => {
@@ -22,32 +22,33 @@ module.exports.getEstudiante = (req, response) => {
 };
 
 module.exports.createEstudiante = async (req, response) => {
-    const { nombre, edad, url, email, password} = req.body;
-    if(!nombre || !edad || !url || !email || !password){
-        response.status(400).json({message: "Mising fields, all are mandatory"});
-    } else{
-        const estudianteEncontrado = await Estudiante.findOne({email});
-        if(estudianteEncontrado){
-            response.status(400).json({message: "User already exist"});
-        }else{
+    const { nombre, edad, url, email, password } = req.body;
+    if (!nombre || !edad || !url || !email || !password) {
+        response.status(400).json({ message: "Mising fields, all are mandatory" });
+    } else {
+        const estudianteEncontrado = await Estudiante.findOne({ email });
+        if (estudianteEncontrado) {
+            response.status(400).json({ message: "User already exist" });
+        } else {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-    
-        Estudiante.create({
-            nombre, edad, url, email, password: hashedPassword
-        })
-            .then(estudiante => response.status(201).json({nombre: estudiante.nombre, edad: estudiante.edad, url: estudiante.url, email: estudiante.email}))
-            .catch(err => response.status(400).json(err));
-}}
+
+            Estudiante.create({
+                nombre, edad, url, email, password: hashedPassword
+            })
+                .then(estudiante => response.status(201).json({ nombre: estudiante.nombre, edad: estudiante.edad, url: estudiante.url, email: estudiante.email }))
+                .catch(err => response.status(400).json(err));
+        }
+    }
 };
 
 module.exports.loginEstudiante = async (req, res) => {
     const { email, password } = req.body;
-    const estudianteFound = await Estudiante.findOne({email});
-    if(estudianteFound && (await bcrypt.compare(password, estudianteFound.password))) {
-        res.json({message: "Login exitoso xd"})
-    }else{
-        res.status(400).json({message: "Login fallido xd"})
+    const estudianteFound = await Estudiante.findOne({ email });
+    if (estudianteFound && (await bcrypt.compare(password, estudianteFound.password))) {
+        res.json({ message: "Login exitoso xd" })
+    } else {
+        res.status(400).json({ message: "Login fallido xd" })
     }
 }
 
@@ -55,7 +56,7 @@ module.exports.updateEstudiante = (req, response) => {
     const { id } = req.params;
     const body = req.body;
     console.log(body);
-    
+
     Estudiante.findOneAndUpdate(
         { _id: id },  // Condición: buscar por id
         body,         // Datos a actualizar
@@ -72,11 +73,11 @@ module.exports.updateEstudiante = (req, response) => {
 
 module.exports.deleteEstudiante = (req, response) => {
     const { id } = req.params;
-    
+
     Estudiante.deleteOne({ _id: id })
         .then(result => {
             if (result.deletedCount === 0) {
-                return response.status(404).json({ m    });
+                return response.status(404).json({ m });
             }
             response.json({ message: "Estudiante eliminado correctamente" });
         })

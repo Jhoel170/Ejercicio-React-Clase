@@ -3,16 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../utils/api";
 
 const EstudianteForm = (props) => {
-    
-    const {onAgregar, onEditar} = props;
-    const { id } = useParams();
 
-    const [nuevoEstudiante, setNuevoEstudiante] = useState ({
+    const { onAgregar, onEditar } = props;
+    const { id } = useParams();
+    const modo = props.modo || "admin";
+
+    const [nuevoEstudiante, setNuevoEstudiante] = useState({
         nombre: "",
-        edad: 170,
+        edad: 0,
         url: "",
         email: "",
+        password: ""
     });
+
     const navegar = useNavigate();
 
     const editar = !!id;
@@ -30,33 +33,47 @@ const EstudianteForm = (props) => {
 
     const [errorNombre, setErrorNombre] = useState("");
     const [errorEdad, setErrorEdad] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
 
     const handlerSubmit = (e) => {
         e.preventDefault();
-        
+
         let valid = true;
 
-        if(nuevoEstudiante.nombre.length < 8) {
+        if (nuevoEstudiante.nombre.length < 8) {
             setErrorNombre("Nombre debe tener al menos 8 caracteres");
             valid = false;
         } else {
             setErrorNombre("");
         }
 
-        if(nuevoEstudiante.edad < 18) {
+        if (nuevoEstudiante.edad < 18) {
             setErrorEdad("No menores de 18");
             valid = false;
         } else {
             setErrorEdad("");
         }
 
+        if (!nuevoEstudiante.email) {
+            setErrorEmail("Email es obligatorio");
+            valid = false;
+        } else {
+            setErrorEmail("");
+        }
+
+        if (!nuevoEstudiante.password) {
+            setErrorPassword("Password es obligatorio");
+            valid = false;
+        } else {
+            setErrorPassword("");
+        }
+
         if (valid) {
             if (editar) {
-                console.log("✏️ Editando con _id:", nuevoEstudiante._id);
-                // ✅ Ahora onEditar retorna una promesa
+                // Ahora onEditar retorna una promesa
                 onEditar(nuevoEstudiante)
                     .then(() => {
-                        console.log("✅ Redirigiendo a lista...");
                         navegar("/estudiantes");
                     })
                     .catch(err => {
@@ -65,79 +82,81 @@ const EstudianteForm = (props) => {
             } else {
                 onAgregar(nuevoEstudiante)
                     .then(() => {
-                        console.log("✅ Redirigiendo a lista...");
-                        navegar("/estudiantes");
+                        if (modo === "registro") {
+                            navegar("/estudiantes/login");
+                        } else {
+                            navegar("/estudiantes");
+                        }
                     })
-                    .catch(err => {
-                        console.log("❌ Error al agregar:", err);
-                    });
             }
         }
     }
 
-    return(
+    return (
         <form onSubmit={handlerSubmit}>
             <div>
                 <label htmlFor="est_nombre">Nombre: </label>
-                <input 
-                    type="text" 
-                    name="est_nombre" 
-                    id="est_nombre" 
-                    value={nuevoEstudiante.nombre} 
-                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, nombre: e.target.value}))} 
-                    placeholder="Ingresa nombre" 
+                <input
+                    type="text"
+                    name="est_nombre"
+                    id="est_nombre"
+                    value={nuevoEstudiante.nombre}
+                    onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, nombre: e.target.value }))}
+                    placeholder="Ingresa nombre"
                     required
                 />
                 <div style={{ color: "red" }}>{errorNombre}</div>
             </div>
             <div>
                 <label htmlFor="est_edad">Edad: </label>
-                <input 
-                    type="number" 
-                    name="est_edad" 
-                    id="est_edad" 
-                    value={nuevoEstudiante.edad} 
-                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, edad: parseInt(e.target.value)}))} 
-                    placeholder="Ingresa edad" 
+                <input
+                    type="number"
+                    name="est_edad"
+                    id="est_edad"
+                    value={nuevoEstudiante.edad}
+                    onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, edad: parseInt(e.target.value) }))}
+                    placeholder="Ingresa edad"
                     required
                 />
                 <div style={{ color: "red" }}>{errorEdad}</div>
             </div>
             <div>
                 <label htmlFor="est_url">URL: </label>
-                <input 
-                    type="text" 
-                    name="est_url" 
-                    id="est_url" 
-                    value={nuevoEstudiante.url} 
-                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, url: e.target.value}))} 
-                    placeholder="Ingresa url" 
+                <input
+                    type="text"
+                    name="est_url"
+                    id="est_url"
+                    value={nuevoEstudiante.url}
+                    onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, url: e.target.value }))}
+                    placeholder="Ingresa url"
                 />
             </div>
             <div>
                 <label htmlFor="est_email">Email: </label>
-                <input 
-                    type="text" 
-                    name="est_email" 
-                    id="est_email" 
-                    value={nuevoEstudiante.email} 
-                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, email: e.target.value}))} 
-                    placeholder="Ingresa email" 
+                <input
+                    type="text"
+                    name="est_email"
+                    id="est_email"
+                    value={nuevoEstudiante.email}
+                    onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="Ingresa email"
                 />
+                <div style={{ color: "red" }}>{errorEmail}</div>
             </div>
             <div>
                 <label htmlFor="est_passw">Password: </label>
-                <input 
-                    type="password" 
-                    name="est_passw" 
-                    id="est_passw" 
-                    value={nuevoEstudiante.password} 
-                    onChange={(e) => setNuevoEstudiante(prev => ({...prev, password: e.target.value}))} 
-                    placeholder="Ingresa password" 
+                <input
+                    type="password"
+                    name="est_passw"
+                    id="est_passw"
+                    value={nuevoEstudiante.password}
+                    onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, password: e.target.value }))}
+                    placeholder="Ingresa password"
                 />
+                <div style={{ color: "red" }}>{errorPassword}</div>
             </div>
             <div>
-                <input type="submit" value={editar ? "Actualizar" : "Agregar"}/>
+                <input type="submit" value={editar ? "Actualizar" : "Agregar"} />
                 <button type="button" onClick={() => navegar("/estudiantes")}>Cancelar</button>
             </div>
         </form>

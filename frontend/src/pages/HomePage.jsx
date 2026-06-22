@@ -4,12 +4,9 @@ function HomePage() {
  return(
     <div>
         <h1><em><strong>Bienvenidos</strong></em></h1>
-        <Link to={"/estudiantes"}>
-            Ir a lista de estudiantes
+        <Link to={"/estudiantes/login"}>
+            Iniciar Sesión
         </ Link>
-        <br />
-        <Link to={"/estudiantes/nuevo"}>Agregar</Link>
-
         
     </div>
  )

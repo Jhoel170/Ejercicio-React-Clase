@@ -1,10 +1,16 @@
 import Estudiante from "../components/Estudiante";
 import { useNavigate } from "react-router-dom";
 import { getId } from "../utils/normalizador";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const EstudiantesPage = (props) => {
     const { estudiantes, onEliminar } = props;
     const navegar = useNavigate();
+    const cerrarSesion = () => {
+        localStorage.removeItem("logueado");
+        navegar("/estudiantes/login");
+    };
 
     if (!estudiantes || estudiantes.length === 0) {
         return (
@@ -17,9 +23,11 @@ const EstudiantesPage = (props) => {
 
     return (
         <div>
+            <button onClick={cerrarSesion}>Cerrar sesión</button>
+            <br />
             <button onClick={() => navegar("/estudiantes/nuevo")}>+</button>
             {estudiantes.map((estudiante) => {
-                // ✅ USA getId() universal
+                // USA getId() universal
                 const id = getId(estudiante);
                 return (
                     <div key={id}>

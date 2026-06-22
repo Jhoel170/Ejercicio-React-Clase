@@ -42,7 +42,11 @@ const DetalleEstudiante = () => {
     return (
         <div>
             <h2>{estudiante.nombre}</h2>
+
             <h4>Edad: {estudiante.edad}</h4>
+
+            <p>Email: {estudiante.email}</p>
+
             {estudiante.url ? (
                 <a href={estudiante.url} target="_blank" rel="noopener noreferrer">
                     Home Page
@@ -50,11 +54,14 @@ const DetalleEstudiante = () => {
             ) : (
                 <span>Home page no disponible</span>
             )}
+
             <div>
                 <button onClick={() => navegar(`/estudiantes/${estudianteId}/editar`)}>
                     Editar
                 </button>
-                <button onClick={() => navegar("/estudiantes")}>Volver</button>
+                <button onClick={() => navegar("/estudiantes")}>
+                    Volver
+                </button>
             </div>
         </div>
     );

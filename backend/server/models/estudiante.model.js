@@ -15,20 +15,20 @@ const EstudianteSchema = new mongoose.Schema({
         type: String,
         required: false,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 if (!v) return true;
                 return /^https?:\/\/.+\..+/.test(v);
             },
             message: "URL no válida"
         }
     },
-    email:{
+    email: {
         type: String,
         required: [true, "Pon el Email"]
     },
     password: {
         type: String,
-        required: [ true, "Password is required"]
+        required: [true, "Password is required"]
     },
 }, {
     timestamps: true, // Guarda en cada registro un actualizado 
