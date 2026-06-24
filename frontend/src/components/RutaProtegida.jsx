@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
 
-const RutaProtegida = ({ children }) => {
+const RutaProtegida = ({children}) => {
 
-    const logueado = localStorage.getItem("logueado");
+    const logueado = localStorage.getItem("token");
 
-    if (logueado === "true") {
+    if (token) {
         return children;
     }
 

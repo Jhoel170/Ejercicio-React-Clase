@@ -9,7 +9,7 @@ require("dotenv").config();
 const passwordxd = "170";
 
 module.exports.getAllEstudiantes = (_, response) => {
-    console.log("Ejecucion dle metodo")
+    console.log("Ejecucion del metodo")
     Estudiante.find({})
         .then(estudiantes => response.json(estudiantes))
         .catch(err => response.json(err))

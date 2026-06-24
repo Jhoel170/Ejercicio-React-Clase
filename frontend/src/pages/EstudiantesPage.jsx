@@ -8,7 +8,7 @@ const EstudiantesPage = (props) => {
     const { estudiantes, onEliminar } = props;
     const navegar = useNavigate();
     const cerrarSesion = () => {
-        localStorage.removeItem("logueado");
+        localStorage.removeItem("token");
         navegar("/estudiantes/login");
     };
 

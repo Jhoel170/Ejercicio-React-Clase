@@ -30,7 +30,7 @@ const LoginEstudiante = (props) => {
         if (valid) {
             api.post("/estudiantes/login", estudiante)
                 .then((res) => {
-                    localStorage.setItem("logueado", "true");
+                    localStorage.setItem("token", respuesta.data.token);
                     navegar("/estudiantes");
                 })
                 .catch((err) => {
