@@ -80,7 +80,7 @@ const LoginEstudiante = (props) => {
             <input type="submit" value={"Ingresar"} />
             <br />
             <Link to="/registro">
-                ¿No tienes cuenta? Regístrate
+                ¿No tienes cuenta falso? Regístrate xd
             </Link>
         </form>
     )

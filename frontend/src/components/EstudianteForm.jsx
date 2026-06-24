@@ -35,6 +35,7 @@ const EstudianteForm = (props) => {
     const [errorEdad, setErrorEdad] = useState("");
     const [errorEmail, setErrorEmail] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
+    const [mostrarPassword, setMostrarPassword] = useState(false);
 
     const handlerSubmit = (e) => {
         e.preventDefault();
@@ -146,13 +147,19 @@ const EstudianteForm = (props) => {
             <div>
                 <label htmlFor="est_passw">Password: </label>
                 <input
-                    type="password"
+                    type={mostrarPassword ? "text" : "password"}
                     name="est_passw"
                     id="est_passw"
                     value={nuevoEstudiante.password}
                     onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, password: e.target.value }))}
                     placeholder="Ingresa password"
                 />
+                <button
+                    type="button"
+                    onClick={() => setMostrarPassword(!mostrarPassword)}
+                >
+                    {mostrarPassword ? "Ocultar xd" : "Ver xd"}
+                </button>
                 <div style={{ color: "red" }}>{errorPassword}</div>
             </div>
             <div>

@@ -22,7 +22,7 @@ export const useEstudiante = () => {
                 return res.data;
             })
             .catch((err) => {
-                console.log("Error al agregar un estudiante", err);
+                console.log("Error al agregar un estudiante", err.response?.data);
                 throw err;
             })
     }

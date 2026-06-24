@@ -1,6 +1,12 @@
 const { response } = require("express")
 const Estudiante = require("../models/estudiante.model")
 const bcrypt = require("bcryptjs")
+const { token } = require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
+require("dotenv").config();
+
+
+const passwordxd = "170";
 
 module.exports.getAllEstudiantes = (_, response) => {
     console.log("Ejecucion dle metodo")
@@ -36,7 +42,7 @@ module.exports.createEstudiante = async (req, response) => {
             Estudiante.create({
                 nombre, edad, url, email, password: hashedPassword
             })
-                .then(estudiante => response.status(201).json({ nombre: estudiante.nombre, edad: estudiante.edad, url: estudiante.url, email: estudiante.email }))
+                .then(estudiante => response.status(201).json({ nombre: estudiante.nombre, edad: estudiante.edad, url: estudiante.url, email: estudiante.email, _id: estudiante._id, token: generateToken(estudiante._id) }))
                 .catch(err => response.status(400).json(err));
         }
     }
@@ -46,7 +52,7 @@ module.exports.loginEstudiante = async (req, res) => {
     const { email, password } = req.body;
     const estudianteFound = await Estudiante.findOne({ email });
     if (estudianteFound && (await bcrypt.compare(password, estudianteFound.password))) {
-        res.json({ message: "Login exitoso xd" })
+        res.json({ message: "Login exitoso xd", email: estudianteFound.email, nombre: estudianteFound.nombre, token: generateToken(estudianteFound._id) })
     } else {
         res.status(400).json({ message: "Login fallido xd" })
     }
@@ -83,3 +89,8 @@ module.exports.deleteEstudiante = (req, response) => {
         })
         .catch(err => response.status(400).json(err));
 };
+
+const generateToken = (id) => {
+    return jwt.sign({ id }, passwordxd, { expiresIn: "30d" })
+}
+

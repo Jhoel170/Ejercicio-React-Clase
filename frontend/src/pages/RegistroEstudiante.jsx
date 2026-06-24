@@ -9,7 +9,6 @@ const RegistroEstudiante = ({ onAgregar }) => {
         console.log("🔥 REGISTRO DATA:", data);
         return onAgregar(data)
             .then(() => {
-                console.log("✅ PROMESA RESUELTA");
                 navegar("/estudiantes/login");
             })
             .catch(err => {
