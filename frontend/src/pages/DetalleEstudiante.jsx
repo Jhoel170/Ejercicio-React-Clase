@@ -8,9 +8,14 @@ const DetalleEstudiante = () => {
     const [cargando, setCargando] = useState(true);
     const { id } = useParams();
     const navegar = useNavigate();
-
+    const token = localStorage.getItem("token");
+    
     useEffect(() => {
-        api.get(`/estudiantes/${id}`)
+        api.get(`/estudiantes/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(res => {
                 setEstudiante(res.data);
             })

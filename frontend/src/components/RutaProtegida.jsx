@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
 
-const RutaProtegida = ({children}) => {
+const RutaProtegida = ({ children }) => {
 
-    const logueado = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (token) {
         return children;

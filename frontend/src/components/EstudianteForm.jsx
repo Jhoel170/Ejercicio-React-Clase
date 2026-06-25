@@ -7,6 +7,7 @@ const EstudianteForm = (props) => {
     const { onAgregar, onEditar } = props;
     const { id } = useParams();
     const modo = props.modo || "admin";
+    const token = localStorage.getItem("token");
 
     const [nuevoEstudiante, setNuevoEstudiante] = useState({
         nombre: "",
@@ -22,7 +23,11 @@ const EstudianteForm = (props) => {
 
     useEffect(() => {
         if (editar) {
-            api.get(`/estudiantes/${id}`)
+            api.get(`/estudiantes/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
                 .then(res => {
                     console.log("📦 Datos cargados para editar:", res.data);
                     setNuevoEstudiante(res.data);
@@ -141,27 +146,32 @@ const EstudianteForm = (props) => {
                     value={nuevoEstudiante.email}
                     onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="Ingresa email"
+                    disabled={editar}
                 />
                 <div style={{ color: "red" }}>{errorEmail}</div>
             </div>
-            <div>
-                <label htmlFor="est_passw">Password: </label>
-                <input
-                    type={mostrarPassword ? "text" : "password"}
-                    name="est_passw"
-                    id="est_passw"
-                    value={nuevoEstudiante.password}
-                    onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, password: e.target.value }))}
-                    placeholder="Ingresa password"
-                />
-                <button
-                    type="button"
-                    onClick={() => setMostrarPassword(!mostrarPassword)}
-                >
-                    {mostrarPassword ? "Ocultar xd" : "Ver xd"}
-                </button>
-                <div style={{ color: "red" }}>{errorPassword}</div>
-            </div>
+            {!editar && (
+                <div>
+                    <label htmlFor="est_passw">Password: </label>
+                    <input
+                        type={mostrarPassword ? "text" : "password"}
+                        name="est_passw"
+                        id="est_passw"
+                        value={nuevoEstudiante.password}
+                        onChange={(e) => setNuevoEstudiante(prev => ({ ...prev, password: e.target.value }))}
+                        placeholder="Ingresa password"
+                    />
+
+                    <button
+                        type="button"
+                        onClick={() => setMostrarPassword(!mostrarPassword)}
+                    >
+                        {mostrarPassword ? "Ocultar xd" : "Ver xd"}
+                    </button>
+
+                    <div style={{ color: "red" }}>{errorPassword}</div>
+                </div>
+            )}
             <div>
                 <input type="submit" value={editar ? "Actualizar" : "Agregar"} />
                 <button type="button" onClick={() => navegar("/estudiantes")}>Cancelar</button>

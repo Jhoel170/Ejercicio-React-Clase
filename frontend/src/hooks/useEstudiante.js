@@ -5,18 +5,28 @@ import { getId } from "../utils/normalizador"; // ✅ IMPORTA
 export const useEstudiante = () => {
     const [estudiantes, setEstudiantes] = useState([]);
 
+    const token = localStorage.getItem("token");
+
     useEffect(() => {
-        api.get("/estudiantes")
+        api.get("/estudiantes", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 setEstudiantes(res.data)
             })
             .catch((err) => {
                 console.log(err);
             })
-    }, [])
+    }, [token])
 
     const agregarEstudiante = (nuevoEstudiante) => {
-        return api.post("/estudiantes", nuevoEstudiante)
+        return api.post("/estudiantes", nuevoEstudiante, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 setEstudiantes(prev => [...prev, res.data]);
                 return res.data;
@@ -31,16 +41,24 @@ export const useEstudiante = () => {
         // ✅ USA getId() universal
         const id = getId(editadoEstudiante);
         console.log("✏️ Editando ID:", id);
-        
+
         if (!id) {
             console.error("❌ No se pudo obtener el ID del estudiante:", editadoEstudiante);
             return Promise.reject("ID no encontrado");
         }
-        
-        return api.put(`/estudiantes/${id}`, editadoEstudiante)
+
+        return api.put(`/estudiantes/${id}`, editadoEstudiante, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(() => {
                 console.log("✅ Editado, recargando lista...");
-                return api.get("/estudiantes");
+                return api.get("/estudiantes", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             })
             .then((res) => {
                 setEstudiantes(res.data);
@@ -54,11 +72,19 @@ export const useEstudiante = () => {
 
     const eliminarEstudiante = (id) => {
         console.log("🗑️ Eliminando:", id);
-        
-        return api.delete(`/estudiantes/${id}`)
+
+        return api.delete(`/estudiantes/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(() => {
                 console.log("✅ Eliminado, recargando lista...");
-                return api.get("/estudiantes");
+                return api.get("/estudiantes", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             })
             .then((res) => {
                 setEstudiantes(res.data);
