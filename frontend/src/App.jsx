@@ -16,7 +16,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/estudiantes" element={<RutaProtegida> <EstudiantesPage estudiantes={estudiantes} onEliminar={eliminarEstudiante} /> </RutaProtegida>} />
-        <Route path="/estudiantes/nuevo" element={<EstudianteForm onAgregar={agregarEstudiante} />}></Route>
+        <Route path="/estudiantes/nuevo" element={<RutaProtegida><EstudianteForm onAgregar={agregarEstudiante} /></RutaProtegida>}></Route>
         <Route path="/estudiantes/:id/detalle" element={<DetalleEstudiante />}></Route>
         <Route path="/estudiantes/:id/editar" element={<EstudianteForm onEditar={editarEstudiante} />}></Route>
         <Route path="/registro" element={<RegistroEstudiante onAgregar={agregarEstudiante} />} />

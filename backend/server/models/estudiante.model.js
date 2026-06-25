@@ -30,6 +30,11 @@ const EstudianteSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password is required"]
     },
+    rol: {
+        type: String,
+        enum: ["admin", "visualizador"],
+        default: "visualizador",
+    }
 }, {
     timestamps: true, // Guarda en cada registro un actualizado 
     versionKey: false   // Elimina el campo __v

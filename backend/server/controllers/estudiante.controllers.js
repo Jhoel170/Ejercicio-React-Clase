@@ -91,6 +91,6 @@ module.exports.deleteEstudiante = (req, response) => {
 };
 
 const generateToken = (id) => {
-    return jwt.sign({ id }, passwordxd, { expiresIn: "30d" })
+    return jwt.sign({ id, rol }, passwordxd, { expiresIn: "30d" })
 }
 
